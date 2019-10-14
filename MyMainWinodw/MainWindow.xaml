@@ -17,7 +17,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="{Binding Name}"/>
-                        <Button Command="{Binding CloseTab}">X</Button>
+                        <Button Command="{Binding CloseTab}" CommandParameter="{Binding}">X</Button>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>

@@ -21,23 +21,28 @@ type Model =  {
     SelectedTab : Tab option
    }
 
-let init = {
-    Tabs = []
-    SelectedTab = None
+let init = 
+    {
+        Tabs = []
+        SelectedTab = None
     }
+    , Cmd.none
 
 type Msg =
   | AddTab
   | CloseTab
+  | CloseTab2 of Tab
   | SetSelectedTab of Tab option
     
 let update msg m =
   match msg with
-  | AddTab -> {m with Tabs = (m.Tabs |> List.append [{Name = "Tab" + createTabId ()}])}
+  | AddTab -> {m with Tabs = (m.Tabs |> List.append [{Name = "Tab" + createTabId ()}])}, Cmd.none
   | CloseTab -> match m.SelectedTab with
-                |Some t -> {m with Tabs = m.Tabs |> List.filter ((<>) t)}
-                |None -> m
-  | SetSelectedTab t -> {m with SelectedTab = t}
+                | Some t -> { m with SelectedTab = None }, Cmd.ofMsg (CloseTab2 t)
+                | None -> m, Cmd.none
+  | CloseTab2 tabToDelete -> {m with Tabs = m.Tabs |> List.filter ((<>) tabToDelete)}, Cmd.none
+  | SetSelectedTab t -> {m with SelectedTab = t}, Cmd.none
+
 
 let bindings () : Binding<Model, Msg> list = [
     "Tabs" |> Binding.subModelSeq((fun m -> m.Tabs),(fun s -> s), fun () -> [
@@ -49,7 +54,7 @@ let bindings () : Binding<Model, Msg> list = [
 
 [<EntryPoint; STAThread>]
 let main argv =
-  Program.mkSimpleWpf (fun () -> init) update bindings
+  Program.mkProgramWpf  (fun () -> init) update bindings
   |> Program.withConsoleTrace
   |> Program.runWindowWithConfig
     { ElmConfig.Default with LogConsole = true; Measure = true }
