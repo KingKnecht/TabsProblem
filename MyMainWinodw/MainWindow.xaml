@@ -12,12 +12,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button Command="{Binding AddTab}" HorizontalAlignment="Center">Add Tab</Button>
-        <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" SelectedItem="{Binding SelectedTab}">
+        <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" SelectedValuePath="Id" SelectedValue="{Binding SelectedTab}"> 
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Tab.Name}"/>
-                        <Button Command="{Binding CloseTab}" CommandParameter="{Binding Tab}">X</Button>
+                        <Label Content="{Binding Name}"/>
+                        <Button Command="{Binding Close}">X</Button>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
@@ -27,7 +27,5 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-
-
     </Grid>
 </Window>
