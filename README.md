@@ -1,3 +1,4 @@
-# TabsProblem
-Close tabs problem showcase for Elmish.WPF (https://github.com/elmish/Elmish.WPF)
+# Creating and closing tabs dynamically
+
+using Elmish.WPF (https://github.com/elmish/Elmish.WPF)
 
