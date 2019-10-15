@@ -16,8 +16,8 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Name}"/>
-                        <Button Command="{Binding CloseTab}" CommandParameter="{Binding}">X</Button>
+                        <Label Content="{Binding Tab.Name}"/>
+                        <Button Command="{Binding CloseTab}" CommandParameter="{Binding Tab}">X</Button>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
@@ -27,6 +27,7 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-        
+
+
     </Grid>
 </Window>
