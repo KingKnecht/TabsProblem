@@ -37,8 +37,9 @@ type Msg =
 let update msg m =
     match msg with
     | AddTab ->
-        let newTab = { Id = Guid.NewGuid (); Name = "Tab" + createTabId () }
-        { m with Tabs = m.Tabs |> List.append [newTab] }
+            let newGuid = Guid.NewGuid ()
+            let newTab = { Id = newGuid; Name = "Tab" + createTabId () }
+            { m with Tabs = List.append m.Tabs [ newTab ]; SelectedTab = Some newGuid }
     | CloseTab tabId ->
         let newTabs = m.Tabs |> List.filter (fun t -> t.Id <> tabId)
         // Logic for selected tab: Keep existing selected if not removed. If
@@ -58,14 +59,14 @@ let update msg m =
 
 let bindings () : Binding<Model, Msg> list =
     [
-        "Tabs" |> Binding.subModelSeq((fun m -> m.Tabs), (fun s -> s), fun () ->
-            [
-                "Name" |> Binding.oneWay (fun (_, t) -> t.Name)
-                "Close" |> Binding.cmd (fun (_, t) -> CloseTab t.Id)
-            ])
-        "AddTab" |> Binding.cmd AddTab
-        "SelectedTab" |> Binding.subModelSelectedItem("Tabs",
-            (fun m -> m.SelectedTab), (fun t -> SelectTab t))
+    "Tabs" |> Binding.subModelSeq((fun m -> m.Tabs), (fun s -> s), fun () ->
+        [
+            "Id" |> Binding.oneWay (fun (_, t) -> t.Id)
+            "Name" |> Binding.oneWay (fun (_, t) -> t.Name)
+            "Close" |> Binding.cmd (fun (_, t) -> CloseTab t.Id)
+        ])
+    "AddTab" |> Binding.cmd AddTab
+    "SelectedTab" |> Binding.twoWayOpt((fun m -> m.SelectedTab), SelectTab)
     ]
 
 [<EntryPoint; STAThread>]

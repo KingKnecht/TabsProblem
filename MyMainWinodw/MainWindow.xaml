@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button Command="{Binding AddTab}" HorizontalAlignment="Center">Add Tab</Button>
-        <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" SelectedValuePath="{Binding Id}" SelectedValue="{Binding SelectedTab}"> 
+        <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" SelectedValuePath="Id" SelectedValue="{Binding SelectedTab}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
